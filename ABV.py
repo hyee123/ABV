@@ -11,7 +11,21 @@ class loadout:
             if line == "done":
                 break
             print("Type Name and then Return. When finished type 'done'")
-            self.drinkers[line] = drinker(line)
+            self.drinkers[line.upper()] = drinker(line.upper())
+
+    def addDrink(self):
+
+        name = input("Name of drinker:")
+
+        if name.upper() in self.drinkers:
+            percent = float(input("ABV Percent:"))
+            amount = float(input("(oz)"))
+            tempdrinker = self.drinkers[name.upper()]
+            
+            tempdrinker.drinks += ((amount / 1.5) * percent)/ 40
+        else:
+            print("Invalid Name")
+            
 
 
     def __str__(self):
@@ -19,7 +33,7 @@ class loadout:
 
     def toScreen(self):
         for key in self.drinkers:
-            print(key +":" + str(self.drinkers[key].drinks))
+            print(str(self.drinkers[key].name) +":" + str(self.drinkers[key].drinks))
 
 class drinker:
     def __init__(self,name):
@@ -28,7 +42,6 @@ class drinker:
         
     def __str__(self):
         return str(self.drinks)
-
 
 def main():
 
@@ -39,7 +52,9 @@ def main():
     for line in sys.stdin:
         line = line.rstrip("\n")
         
-
+        if line == "add drink":
+            curLoad.addDrink()
+            
         if line == "exit" or line == "quit":
             break
         
@@ -48,7 +63,7 @@ def main():
         
 
         
-        print(line)        
+       # print(line)        
         
     curLoad.toScreen()
 
